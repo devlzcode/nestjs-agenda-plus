@@ -1,6 +1,6 @@
 {
   "name": "nestjs-agenda-plus",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Ly",
   "repository": "git://github.com/agent-ly/nestjs-agenda-plus.git",
   "description": "A super-powered Nestjs Agenda module",
