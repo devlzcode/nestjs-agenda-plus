@@ -1,10 +1,11 @@
-import { Module, OnApplicationShutdown } from "@nestjs/common";
+import { Global, Module, OnApplicationShutdown } from "@nestjs/common";
 import { DiscoveryModule, ModuleRef } from "@nestjs/core";
 import { Agenda } from "agenda";
 import { AgendaMetadataAccessor } from "./agenda.metadata-accessor";
 import { AgendaExplorer } from "./agenda.explorer";
 import { ConfigurableModuleClass } from "./agenda.module-definition";
 
+@Global()
 @Module({
   imports: [DiscoveryModule],
   providers: [AgendaMetadataAccessor, AgendaExplorer],
