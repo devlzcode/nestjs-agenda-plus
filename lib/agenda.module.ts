@@ -1,6 +1,6 @@
 import { Module, OnApplicationShutdown } from "@nestjs/common";
 import { DiscoveryModule } from "@nestjs/core";
-import { Agenda } from "agenda";
+import Agenda from "agenda";
 import { AgendaMetadataAccessor } from "./agenda.metadata-accessor";
 import { AgendaExplorer } from "./agenda.explorer";
 import { ConfigurableModuleClass } from "./agenda.module-definition";

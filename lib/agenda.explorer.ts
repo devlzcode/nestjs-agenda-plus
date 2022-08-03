@@ -1,7 +1,7 @@
 import { DiscoveryService, MetadataScanner } from "@nestjs/core";
 import type { OnModuleInit } from "@nestjs/common";
 import { Logger, Injectable } from "@nestjs/common";
-import { Agenda } from "agenda";
+import Agenda from "agenda";
 import { AgendaMetadataAccessor } from "./agenda.metadata-accessor";
 
 @Injectable()
