@@ -1,5 +1,5 @@
 import type { FactoryProvider } from "@nestjs/common";
-import Agenda from "agenda";
+import { Agenda } from "agenda";
 import type { AgendaModuleOptions } from "./types";
 import { AGENDA_MODULE_OPTIONS_TOKEN } from "./agenda.constants";
 

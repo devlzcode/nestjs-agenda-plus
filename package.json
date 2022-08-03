@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "test": "vitest",
+    "test:e2e": "ts-node-dev test/e2e/src/main.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "release": "npm run build && release-it"
   },

@@ -1,7 +1,7 @@
-import { DiscoveryService, MetadataScanner } from "@nestjs/core";
+import { DiscoveryService, MetadataScanner, ModuleRef } from "@nestjs/core";
 import type { OnModuleInit } from "@nestjs/common";
 import { Logger, Injectable } from "@nestjs/common";
-import Agenda from "agenda";
+import { Agenda } from "agenda";
 import { AgendaMetadataAccessor } from "./agenda.metadata-accessor";
 
 @Injectable()
@@ -9,10 +9,10 @@ export class AgendaExplorer implements OnModuleInit {
   private readonly logger = new Logger(AgendaExplorer.name);
 
   constructor(
+    private readonly modRef: ModuleRef,
     private readonly discoveryService: DiscoveryService,
     private readonly metadataScanner: MetadataScanner,
     private readonly metadataAccessor: AgendaMetadataAccessor,
-    private readonly agenda: Agenda,
   ) {}
 
   onModuleInit() {
@@ -20,18 +20,20 @@ export class AgendaExplorer implements OnModuleInit {
   }
 
   explore() {
+    const agenda = this.modRef.get(Agenda);
     const providers = this.discoveryService.getProviders();
     for (const provider of providers) {
       if (!provider.instance) continue;
-      if (!provider.isDependencyTreeStatic()) continue;
+      if (!provider.metatype) continue;
       if (!this.metadataAccessor.canProcessJobs(provider.metatype)) continue;
+      if (!provider.isDependencyTreeStatic()) continue;
 
       this.metadataScanner.scanFromPrototype(
         provider.instance,
         Object.getPrototypeOf(provider.instance),
         (key: string) => {
-          if (typeof provider.instance[key] !== "function") return;
           const methodRef = provider.instance[key];
+          if (typeof methodRef !== "function") return;
 
           const defineOptions =
             this.metadataAccessor.getJobDefinitionOptions(methodRef);
@@ -39,7 +41,7 @@ export class AgendaExplorer implements OnModuleInit {
           this.logger.log(`Defining job "${defineOptions.name}"`);
           const processor = (...args: unknown[]) =>
             methodRef.call(provider.instance, ...args);
-          this.agenda.define(
+          agenda.define(
             defineOptions.name,
             defineOptions.options || {},
             processor,
@@ -75,12 +77,9 @@ export class AgendaExplorer implements OnModuleInit {
           );
 
           if (scheduleOptions.isEvery) {
-            this.agenda.every(
-              scheduleOptions.when as string,
-              defineOptions.name,
-            );
+            agenda.every(scheduleOptions.when as string, defineOptions.name);
           } else {
-            this.agenda.schedule(scheduleOptions.when, defineOptions.name, {});
+            agenda.schedule(scheduleOptions.when, defineOptions.name, {});
           }
         },
       );

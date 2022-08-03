@@ -1,6 +1,6 @@
 import { Injectable, Module } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import Agenda from "agenda";
+import { Agenda } from "agenda";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { AgendaModule, DefineJob, ScheduleJob } from "../lib";
 

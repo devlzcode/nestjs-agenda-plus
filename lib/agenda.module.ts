@@ -1,6 +1,6 @@
 import { Module, OnApplicationShutdown } from "@nestjs/common";
 import { DiscoveryModule, ModuleRef } from "@nestjs/core";
-import Agenda from "agenda";
+import { Agenda } from "agenda";
 import { AgendaMetadataAccessor } from "./agenda.metadata-accessor";
 import { AgendaExplorer } from "./agenda.explorer";
 import { ConfigurableModuleClass } from "./agenda.module-definition";
@@ -18,7 +18,7 @@ export class AgendaModule
   }
 
   async onApplicationShutdown() {
-    const agenda = this.modRef.get(Agenda, { strict: false });
+    const agenda = this.modRef.get(Agenda);
     await agenda.stop();
     await agenda.close();
   }

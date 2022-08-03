@@ -27,7 +27,7 @@ export class AppModule {}
 
 ```ts
 import { Injectable } from "@nestjs/common";
-import Agenda from 'agenda'
+import { Agenda } from 'agenda'
 import { AgendaModule, DefineJob, ScheduleJob } from "nestjs-agenda-plus";
 
 @Injectable()
