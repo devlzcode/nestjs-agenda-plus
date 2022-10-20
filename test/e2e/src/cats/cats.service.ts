@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Agenda } from "agenda";
+import { Agenda } from "@hokify/agenda";
 
 @Injectable()
 export class CatsService {

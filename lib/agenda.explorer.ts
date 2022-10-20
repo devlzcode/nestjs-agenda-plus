@@ -1,7 +1,7 @@
 import { DiscoveryService, MetadataScanner, ModuleRef } from "@nestjs/core";
 import type { OnModuleInit } from "@nestjs/common";
 import { Logger, Injectable } from "@nestjs/common";
-import { Agenda } from "agenda";
+import { Agenda } from "@hokify/agenda";
 import { AgendaMetadataAccessor } from "./agenda.metadata-accessor";
 
 @Injectable()
@@ -38,13 +38,14 @@ export class AgendaExplorer implements OnModuleInit {
           const defineOptions =
             this.metadataAccessor.getJobDefinitionOptions(methodRef);
           if (!defineOptions) return;
+
           this.logger.log(`Defining job "${defineOptions.name}"`);
           const processor = (...args: unknown[]) =>
             methodRef.call(provider.instance, ...args);
           agenda.define(
             defineOptions.name,
-            defineOptions.options || {},
             processor,
+            defineOptions.options || {},
           );
 
           const scheduleOptions =

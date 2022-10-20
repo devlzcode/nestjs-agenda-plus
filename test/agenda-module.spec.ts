@@ -1,6 +1,6 @@
 import { Injectable, Module } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { Agenda } from "agenda";
+import { Agenda } from "@hokify/agenda";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { AgendaModule, DefineJob, ScheduleJob } from "../lib";
 
@@ -10,14 +10,13 @@ class AppService {
 
   @DefineJob("test")
   async test() {
-    return true;
+    console.log("Hello world from test!");
   }
 
   async runTest() {
     const job = this.agenda.create("test", {});
-    job.setShouldSaveResult(true);
+    await job.save();
     await job.run();
-    return job.attrs.result;
   }
 
   @DefineJob("test-schedule")
@@ -64,13 +63,12 @@ describe("AgendaModule", () => {
   });
 
   it("Should define jobs", async () => {
-    expect(agenda._definitions["test"]).toBeDefined();
-    expect(agenda._definitions["test-schedule"]).toBeDefined();
-    expect(agenda._definitions["test-every"]).toBeDefined();
+    expect(agenda.definitions["test"]).toBeDefined();
+    expect(agenda.definitions["test-schedule"]).toBeDefined();
+    expect(agenda.definitions["test-every"]).toBeDefined();
   });
 
   it("Should run a job", async () => {
-    const result = await appService.runTest();
-    expect(result).toBe(true);
+    await appService.runTest();
   });
 });

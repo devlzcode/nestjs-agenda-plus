@@ -28,7 +28,7 @@
     "@nestjs/testing": "^9.0.7",
     "@swc/core": "^1.2.222",
     "@types/node": "^18.6.3",
-    "agenda": "^4.3.0",
+    "@hokify/agenda": "^6.2.12",
     "reflect-metadata": "^0.1.13",
     "release-it": "^15.2.0",
     "rimraf": "^3.0.2",
@@ -42,7 +42,7 @@
   "peerDependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
-    "agenda": "^4.3.0",
+    "@hokify/agenda": "^6.2.12",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0"
   }
