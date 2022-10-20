@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-npm i agenda nestjs-agenda-plus
+npm i @hokify/agenda nestjs-agenda-plus
 ```
 
 ## Usage
